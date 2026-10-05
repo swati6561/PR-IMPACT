@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - ChatWISE</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+crossorigin="anonymous"/>
+
+<style>
+
+/* ================= BASE ================= */
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Cambria, Georgia, serif;
+    background:url("bg-login.jpg") no-repeat center/cover;
+    color:#fff;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    height:72px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px 0 90px;
+    background:linear-gradient(180deg,#1b1b1b,#0e0e0e);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 8px 30px rgba(0,0,0,0.7);
+    z-index:200;
+}
+
+.navbar h2{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:1px;
+    color:#eaffff;
+    text-shadow:0 0 12px rgba(0,247,255,0.7);
+}
+
+/* SEARCH */
+.search{
+    flex:1;
+    max-width:520px;
+    display:flex;
+    margin:0 40px;
+}
+
+.search input{
+    flex:1;
+    height:44px;
+    padding:0 16px;
+    border:none;
+    outline:none;
+    border-radius:10px 0 0 10px;
+    font-size:15px;
+}
+
+.search button{
+    height:44px;
+    padding:0 20px;
+    border:none;
+    border-radius:0 10px 10px 0;
+    background:#111;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.search button:hover{
+    background:#00f7ff;
+    color:#000;
+    box-shadow:0 0 16px #00f7ff;
+}
+
+/* LOGOUT */
+.log-btn button{
+    height:44px;
+    padding:0 18px;
+    border-radius:10px;
+    border:none;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    background:#fff;
+    color:#000;
+    transition:0.3s;
+}
+
+.log-btn button:hover{
+    background:#ff0033;
+    color:#fff;
+    box-shadow:0 0 16px #ff0033;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar{
+    position:fixed;
+    top:72px;
+    left:0;
+    width:70px;
+    height:calc(100vh - 72px);
+    background:linear-gradient(180deg,#111,#080808);
+    border-right:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:22px;
+    gap:22px;
+    z-index:150;
+}
+
+.end-side{
+    margin-top: auto;              /* PUSH TO BOTTOM */
+    padding-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* keep same look as sidebar items */
+.end-side .nav-item{
+    background: rgba(255,255,255,0.06);
+}
+
+/* subtle separation line */
+.end-side::before{
+    content:"";
+    width:40px;
+    height:1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 auto 16px;
+}
+
+.nav-item{
+    position:relative;
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    transition:0.35s;
+}
+
+.nav-item i{
+    color:#fff;
+    font-size:18px;
+}
+
+.nav-item span{
+    position:absolute;
+    left:130%;
+    top:50%;
+    transform:translateY(-50%) translateX(-10px);
+    background:#00f7ff;
+    color:#000;
+    font-size:13px;
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:8px;
+    opacity:0;
+    pointer-events:none;
+    transition:0.25s;
+    white-space:nowrap;
+}
+
+.nav-item span::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    right:100%;
+    transform:translateY(-50%);
+    border:6px solid transparent;
+    border-right-color:#00f7ff;
+}
+
+.nav-item:hover{
+    background:#fff;
+    transform:translateX(6px);
+    box-shadow:0 0 18px rgba(0,247,255,0.9);
+}
+
+.nav-item:hover i{color:#000;}
+.nav-item:hover span{
+    opacity:1;
+    transform:translateY(-50%) translateX(0);
+}
+
+.nav-item.active{
+    background:#00f7ff;
+    box-shadow:0 0 22px #00f7ff;
+}
+.nav-item.active i{color:#000;}
+
+/* ================= CONTENT ================= */
+.main{
+    margin-left:70px;
+    padding-top:72px;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ================= PROFILE CARD ================= */
+.profile-container{
+    width:420px;
+    background:rgba(0,0,0,0.38);
+    backdrop-filter:blur(26px);
+    padding:35px 30px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 0 35px rgba(0,255,255,0.55);
+    animation:fadeUp 0.9s ease;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(30px)}
+    to{opacity:1; transform:translateY(0)}
+}
+
+/* AVATAR */
+.avatar{
+    width:120px;
+    height:120px;
+    margin:auto;
+    border-radius:50%;
+    border:2px solid #00ffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:46px;
+    color:#00ffff;
+    box-shadow:0 0 22px #00ffff;
+    animation:glow 3s infinite;
+}
+
+@keyframes glow{
+    0%{box-shadow:0 0 12px #00ffff}
+    50%{box-shadow:0 0 34px #00ffff}
+    100%{box-shadow:0 0 12px #00ffff}
+}
+
+h1{
+    margin:18px 0 6px;
+    color:#000;
+    text-shadow:0 0 10px #00ffff,0 0 20px #00ffff;
+}
+
+.role{
+    font-size:14px;
+    font-weight:800;
+    color:#00ffff;
+    letter-spacing:1px;
+}
+
+/* INFO */
+.info-box{
+    margin-top:24px;
+    text-align:left;
+}
+
+.info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    margin-bottom:12px;
+    border-radius:14px;
+    border:1px solid rgba(0,255,255,0.4);
+    background:rgba(0,0,0,0.6);
+    transition:0.3s;
+}
+
+.info:hover{
+    transform:scale(1.03);
+    box-shadow:0 0 14px #00ffff;
+}
+
+.info i{color:#00ffff;}
+.info span{font-weight:700;}
+
+/* BUTTONS */
+.btn-group{
+    margin-top:26px;
+    display:flex;
+    gap:15px;
+}
+
+.btn{
+    flex:1;
+    padding:12px;
+    border-radius:14px;
+    border:2px solid #00ffff;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#00ffff;
+    color:#111;
+    box-shadow:0 0 20px #00ffff;
+}
+
+.footer-text{
+    margin-top:18px;
+    font-size:13px;
+    font-weight:700;
+    color:#000;
+    text-shadow:0 0 6px #00ffff;
+}
+
+@media(max-width:480px){
+    .profile-container{width:90%}
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <h2>ChatWISE</h2>
+</header>
+
+<aside class="sidebar">
+    <a href="dashboard.html" class="nav-item">
+        <i class="fa-regular fa-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="chats.html" class="nav-item">
+        <i class="fa-regular fa-comment"></i>
+        <span>Chats</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+        <i class="fa-regular fa-user"></i>
+        <span>Profile</span>
+    </a>
+
+    <div class="end-side">
+            <a href="partners.html" class="nav-item">
+                <i class="fa-solid fa-handshake"></i>
+                <span>Partners</span>
+            </a>
+            <a href="setting.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Setting</span>
+            </a>
+    </div>
+</aside>
+
+<main class="main">
+    <div class="profile-container">
+        <div class="avatar"><i class="fas fa-user"></i></div>
+        <h1 id="profileName">User</h1>
+        <div class="role">Verified Member</div>
+
+        <div class="info-box">
+            <div class="info"><i class="fas fa-user"></i><span id="profileUsername"></span></div>
+            <div class="info"><i class="fas fa-envelope"></i><span id="profileEmail"></span></div>
+            <div class="info"><i class="fas fa-phone"></i><span id="profileMobile"></span></div>
+            <div class="info"><i class="fas fa-calendar-check"></i><span>Active Account</span></div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" onclick="goDashboard()">Dashboard</button>
+            <button class="btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="footer-text">© ChatWISE -communication | Secure Profile</div>
+    </div>
+</main>
+
+<script>
+/* ================= CHATWISE AUTH ================= */
+
+const currentUser = JSON.parse(localStorage.getItem("chatwise_currentUser"));
+
+if(!currentUser){
+    window.location.href = "index.html";
+}
+
+/* ================= POPULATE ================= */
+
+document.getElementById("profileName").innerText = currentUser.username;
+document.getElementById("profileUsername").innerText = currentUser.username;
+document.getElementById("profileEmail").innerText = currentUser.email;
+document.getElementById("profileMobile").innerText = currentUser.mobile || "Not set";
+
+/* ================= ACTIONS ================= */
+
+function logout(){
+    localStorage.removeItem("chatwise_currentUser");
+    window.location.href = "index.html";
+}
+
+function goDashboard(){
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

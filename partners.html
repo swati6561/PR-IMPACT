@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partners - ChatWISE</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous"/>
+<style>
+/* ================= RESET ================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(circle at top, #151515, #0b0b0b);
+    color: #fff;
+    padding-left: 70px; /* space for sidebar */
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 72px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px 0 90px;
+    background: linear-gradient(180deg, #1b1b1b, #111);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    z-index: 200;
+}
+
+.navbar h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8ffff;
+    text-shadow: 0 0 12px rgba(0, 247, 255, 0.7);
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 70px;
+    height: calc(100vh - 72px);
+    background: linear-gradient(180deg, #111, #0a0a0a);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 22px;
+    gap: 22px;
+    z-index: 150;
+}
+
+.end-side {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+/* keep same look as sidebar items */
+.end-side .nav-item{
+    background: rgba(255,255,255,0.06);
+}
+
+/* subtle separation line */
+.end-side::before{
+    content:"";
+    width:40px;
+    height:1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 auto 16px;
+}
+
+.sidebar .nav-item {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.35s ease;
+}
+
+.sidebar .nav-item i {
+    font-size: 18px;
+    color: #fff;
+}
+
+.sidebar .nav-item span {
+    position: absolute;
+    left: 130%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: #00f7ff;
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+.sidebar .nav-item:hover {
+    background: #fff;
+    transform: translateX(5px);
+    box-shadow: 0 0 18px rgba(0, 247, 255, 0.9);
+}
+
+.sidebar .nav-item:hover i {
+    color: #000;
+}
+
+.sidebar .nav-item:hover span {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.sidebar .nav-item.active {
+    background: #00f7ff;
+    box-shadow: 0 0 22px #00f7ff;
+}
+
+.sidebar .nav-item.active i {
+    color: #000;
+}
+
+/* ================= HERO ================= */
+.hero {
+    padding: 80px 40px 40px 40px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #9df2fc;
+    text-shadow: 0 0 8px #62f5ff;
+}
+
+/* ================= SOCIAL CARDS ================= */
+.social-track {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.social-card {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    text-decoration: none;
+    color: #000;
+    overflow: hidden;
+    transition: 0.4s ease;
+    font-size: 24px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+
+.social-card span {
+    position: absolute;
+    bottom: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    transition: 0.4s ease;
+    color: #000;
+}
+
+.social-card:hover span {
+    opacity: 1;
+}
+
+.social-card.youtube:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #ff0000;
+}
+.social-card.instagram:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #dd2a7b;
+}
+.social-card.facebook:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #1d11f2;
+}
+.social-card.twitter:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #1da1f2;
+}
+.social-card.linkedin:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #0a66c2;
+}
+
+/* BRAND COLORS */
+.youtube { background: #ff0000; }
+.instagram { background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4); }
+.facebook { background: #1877f2; }
+.twitter { background: #1da1f2; }
+.linkedin { background: #0a66c2; }
+
+/* ================= USER GRID ================= */
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    justify-items: center;
+}
+
+.partner-card {
+    position: relative;
+    width: 180px;
+    height: 200px;
+    border-radius: 16px;
+    background: #1a1a1a;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transition: 0.35s ease;
+    box-shadow: 0 0 12px rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+
+.partner-card i {
+    width: 80px;
+    height: 80px;
+    margin-top: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: 0.35s ease;
+    font-size: 40px;
+}
+
+.partner-card h3 {
+    margin: 10px 0;
+    font-size: 1rem;
+    text-align: center;
+    color: #9df2fc;
+}
+
+.partner-card .details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 247, 255, 0.9);
+    color: #000;
+    padding: 16px;
+    text-align: center;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.35s ease;
+}
+
+.partner-card strong {
+    font-size: .9rem;
+}
+
+.partner-card:hover .details {
+    height: 100%;
+    opacity: 1;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 1.5rem; }
+    .social-card { width: 100px; height: 100px; font-size: 20px; }
+    .user-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>ChatWISE</h2>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <a href="dashboard.html" class="nav-item">
+        <i class="fa-regular fa-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="chats.html" class="nav-item">
+        <i class="fa-regular fa-comment"></i>
+        <span>Chats</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+        <i class="fa-regular fa-user"></i>
+        <span>Profile</span>
+    </a>
+
+    <div class="end-side">
+        <a href="partners.html" class="nav-item active">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Partners</span>
+        </a>
+        <a href="setting.html" class="nav-item">
+            <i class="fa-solid fa-gear"></i>
+            <span>Setting</span>
+        </a>
+    </div>
+</aside>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Our Social Media</h1>
+
+    <div class="social-track">
+        <a class="social-card youtube" href="https://www.youtube.com" target="_blank">
+            <i class="fab fa-youtube"></i>
+            <span>YouTube</span>
+        </a>
+
+        <a class="social-card instagram" href="https://www.instagram.com" target="_blank">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+        </a>
+
+        <a class="social-card facebook" href="https://www.facebook.com" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+
+        <a class="social-card twitter" href="https://www.x.com" target="_blank">
+            <i class="fab fa-x-twitter"></i>
+            <span>X - Twitter</span>
+        </a>
+
+        <a class="social-card linkedin" href="https://www.linkedin.com" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+            <span>LinkedIn</span>
+        </a>
+    </div>
+
+    <h1>Our Team</h1>
+    <div class="user-grid">
+        <!-- Partner 1 -->
+        <div class="partner-card">
+            <i class="fa-solid fa-user"></i>
+            <h3>Krish Barot</h3>
+            <div class="details">
+                <p>Project Idea,<br>Designer, Developer<br>&<br>Coder.</p><br>
+                <p><strong>📞+91 7990234132</strong></p>
+            </div>
+        </div>
+        <!-- Partner 2 -->
+        <div class="partner-card">
+            <i class="fa-solid fa-user"></i>
+            <h3>Sahil Sadhu</h3>
+            <div class="details">
+                <p>Supportive Member & Secondary Coder.</p><br>
+                <p><strong>📞+91 7984224134</strong></p>
+            </div>
+        </div>
+        <!-- Partner 3 -->
+        <div class="partner-card">
+            <i class="fa-solid fa-user"></i>
+            <h3>Krunal Rawat</h3>
+            <div class="details">
+                <p>Helper & Supporter, Code Researcher.</p><br>
+                <p><strong>📞+91 9016424249</strong></p>
+            </div>
+        </div>
+        <!-- Partner 4 -->
+        <div class="partner-card">
+            <i class="fa-solid fa-user"></i>
+            <h3>Maulik Dantani</h3>
+            <div class="details">
+                <p>Knowledge, Researcher, Idea Analystics and Helper.</p><br>
+                <p><strong>📞+91 9904151238</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+/* ================================
+   CHATWISE AUTH GUARD
+================================ */
+
+// If user is NOT logged in → redirect to login
+const currentUser = JSON.parse(localStorage.getItem("chatwise_currentUser"));
+
+if (!currentUser) {
+    window.location.href = "index.html";
+}
+
+/* ================================
+   LOGOUT
+================================ */
+
+const logoutBtn = document.querySelector(".log-btn button");
+
+logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("chatwise_currentUser");
+    window.location.href = "index.html";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+<style>
+/* ================= RESET ================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(circle at top, #151515, #0b0b0b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+}
+
+/* ================= LOADER WRAPPER ================= */
+.loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ================= LOADER ================= */
+.loader {
+    width: 100px;
+    height: 50px;
+    position: relative;
+}
+
+.loader-text {
+    position: absolute;
+    top: -35px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #9df2fc;
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0;
+    animation: fadeText 2s ease-in-out infinite;
+    text-shadow: 0 0 6px #b6fdff, 0 0 12px #62f5ff;
+}
+
+.load {
+    background-color: #70fdce;
+    border-radius: 50px;
+    display: block;
+    height: 16px;
+    width: 16px;
+    bottom: 0;
+    position: absolute;
+    transform: translateX(64px);
+    animation: loading_713 3.5s ease both infinite;
+    box-shadow: 0 0 10px #79ffef, 0 0 20px #b6fff4;
+}
+
+.load::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #c2fff3;
+    border-radius: inherit;
+    animation: loading2_713 3.5s ease both infinite;
+}
+
+/* ================= FADE ANIMATION ================= */
+@keyframes fadeText {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* ================= LOADER BAR ANIMATIONS ================= */
+@keyframes loading_713 {
+  0% { width: 16px; transform: translateX(0px); }
+  40% { width: 100%; transform: translateX(0px); }
+  80% { width: 16px; transform: translateX(64px); }
+  90% { width: 100%; transform: translateX(0px); }
+  100% { width: 16px; transform: translateX(0px); }
+}
+
+@keyframes loading2_713 {
+  0% { transform: translateX(0px); width: 16px; }
+  40% { transform: translateX(0%); width: 80%; }
+  80% { width: 100%; transform: translateX(0px); }
+  90% { width: 80%; transform: translateX(15px); }
+  100% { transform: translateX(0px); width: 16px; }
+}
+
+/* ================= P TAG COLOR ANIMATION ================= */
+.loader-wrapper p {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff; /* base text color */
+    background: linear-gradient(135deg, red 30%, white 50%, red 30%, red 20%);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: redSweep 2s linear infinite;
+}
+
+@keyframes redSweep {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="loader-wrapper">
+    <div class="loader">
+        <span class="loader-text">Loading...</span>
+        <span class="load"></span>
+    </div>
+    <p>Please Wait, We Are Redirecting...</p>
+</div>
+<script>
+// Redirect after 10 seconds (10000 milliseconds)
+setTimeout(() => {
+    window.location.href = "dashboard.html"; // target page after signup
+}, 5000);
+</script>
+</body>
+</html>

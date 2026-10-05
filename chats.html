@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chats - ChatWISE</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+<style>
+    /* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:"Segoe UI",system-ui,sans-serif;
+    background:radial-gradient(circle at top,#141414,#080808);
+    color:#fff;
+    padding-left:70px;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 72px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px 0 90px;
+    background: linear-gradient(180deg, #1b1b1b, #111);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    z-index: 200;
+}
+
+/* LOGO */
+.navbar h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e8ffff;
+    text-shadow: 0 0 12px rgba(0, 247, 255, 0.7);
+}
+
+/* ================= SEARCH ================= */
+
+.search {
+    flex: 1;
+    max-width: 560px;
+    display: flex;
+    margin: 0 40px;
+}
+
+.search input {
+    flex: 1;
+    height: 46px;
+    padding: 0 18px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    outline: none;
+}
+
+.search button {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    background: #0f0f0f;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.search button:hover {
+    background: #00f7ff;
+    color: #000;
+    box-shadow: 0 0 18px #00f7ff;
+}
+
+/* ================= LOGOUT ================= */
+
+.log-btn button {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    background: #ffffff;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.log-btn button:hover {
+    background: #ff0033;
+    color: #fff;
+    box-shadow: 0 0 18px #ff0033;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 70px;
+    height: calc(100vh - 72px);
+    background: linear-gradient(180deg, #111, #0a0a0a);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 22px;
+    gap: 22px;
+    z-index: 150;
+}
+
+.end-side{
+    margin-top: auto;              /* PUSH TO BOTTOM */
+    padding-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* keep same look as sidebar items */
+.end-side .nav-item{
+    background: rgba(255,255,255,0.06);
+}
+
+/* subtle separation line */
+.end-side::before{
+    content:"";
+    width:40px;
+    height:1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 auto 16px;
+}
+
+/* SIDEBAR ICON */
+.sidebar .nav-item {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.35s ease;
+}
+
+.sidebar .nav-item i {
+    font-size: 18px;
+    color: #fff;
+}
+
+/* TOOLTIP */
+.sidebar .nav-item span {
+    position: absolute;
+    left: 130%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: #00f7ff;
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+/* TOOLTIP ARROW */
+.sidebar .nav-item span::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: #00f7ff;
+}
+
+/* HOVER EFFECT */
+.sidebar .nav-item:hover {
+    background: #fff;
+    transform: translateX(5px);
+    box-shadow: 0 0 18px rgba(0, 247, 255, 0.9);
+}
+
+.sidebar .nav-item:hover i {
+    color: #000;
+}
+
+.sidebar .nav-item:hover span {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* ACTIVE STATE */
+.sidebar .nav-item.active {
+    background: #00f7ff;
+    box-shadow: 0 0 22px #00f7ff;
+}
+
+.sidebar .nav-item.active i {
+    color: #000;
+}
+
+/* ================= PAGE ================= */
+.chat-page{
+    margin-top:90px;
+    padding:40px;
+}
+
+/* ================= HEADER ================= */
+.chat-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+.chat-header h1{
+    font-size:2.2rem;
+    text-shadow:0 0 15px #00f7ff;
+}
+.chat-header p{color:#aaa}
+
+/* ================= CHAT ================= */
+.chat-container{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
+}
+
+/* USERS */
+.chat-users{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(0,247,255,.25);
+    border-radius:16px;
+    padding:20px;
+}
+.user{
+    padding:14px;
+    border-radius:12px;
+    cursor:pointer;
+    margin-bottom:10px;
+    transition:.3s;
+}
+.user.active,
+.user:hover{
+    background:rgba(0,247,255,.18);
+    box-shadow:0 0 15px rgba(0,247,255,.6);
+}
+
+/* CHAT BOX */
+.chat-box{
+    display:flex;
+    flex-direction:column;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(0,247,255,.25);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.messages{
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+}
+
+.msg{
+    max-width:65%;
+    padding:12px 16px;
+    border-radius:14px;
+    margin-bottom:12px;
+}
+.msg.me{
+    background:#00f7ff;
+    color:#000;
+    margin-left:auto;
+}
+.msg.partner{
+    background:rgba(255,255,255,.1);
+}
+
+.chat-input{
+    display:flex;
+    gap:10px;
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.1);
+}
+.chat-input input{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    border:none;
+}
+.chat-input button{
+    background:#00f7ff;
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:700;
+}
+
+/* CONTACT PANEL SLIDE ANIMATION */
+.chat-users{
+    transform: translateX(-40px);
+    opacity: 0;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.chat-users.show{
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.user.active{
+    background: rgba(255,255,255,0.1);
+    border-left: 3px solid red;
+}
+
+.chat-with{
+    padding:10px;
+    font-weight:600;
+    opacity:.8;
+}
+
+.msg{
+    position:relative;
+    touch-action: pan-y;
+}
+.msg.replying{
+    outline:2px dashed #00f7ff;
+}
+.wave{
+    display:flex;
+    gap:3px;
+    margin-top:6px;
+}
+.wave span{
+    width:3px;
+    height:10px;
+    background:#ff0101;
+    animation:wave 1s infinite ease-in-out;
+}
+
+#liveWave{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 0 10px rgba(255,0,0,.25);
+}
+
+.wave span:nth-child(2){animation-delay:.1s}
+.wave span:nth-child(3){animation-delay:.2s}
+
+@keyframes wave{
+    0%,100%{height:6px}
+    50%{height:14px}
+}
+
+.reactions{
+    display:flex;
+    gap:6px;
+    font-size:14px;
+    margin-top:4px;
+}
+.reactions span{
+    cursor:pointer;
+    opacity:.7;
+}
+.reactions span:hover{opacity:1}
+.reactions{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+    font-size:15px;
+}
+
+.reactions span{
+    cursor:pointer;
+    opacity:0.6;
+    transition:.2s;
+}
+
+.reactions span:hover{
+    opacity:1;
+    transform:scale(1.2);
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+    <h2>ChatWISE</h2>
+</header>
+
+<aside class="sidebar">
+    <a class="nav-item" href="dashboard.html"><i class="fa-regular fa-house"></i><span>Home</span></a>
+    <a class="nav-item active" href="chats.html"><i class="fa-regular fa-comment"></i><span>Chats</span></a>
+    <a class="nav-item" href="profile.html"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+
+    <div class="end-side">
+            <a href="partners.html" class="nav-item">
+                <i class="fa-solid fa-handshake"></i>
+                <span>Partners</span>
+            </a>
+            <a href="setting.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Setting</span>
+            </a>
+        </div>
+</aside>
+
+<section class="chat-page">
+<div class="chat-header">
+    <h1><i class="fa-regular fa-comment"></i> Social Chats</h1>
+    <p>Only registered ChatWISE users</p>
+</div>
+
+<div class="chat-container">
+
+    <!-- USERS PANEL -->
+    <div class="chat-users" id="contactsPanel">
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+            <input type="text" id="addMobile" placeholder="Add by mobile" style="flex:1;padding:8px;border-radius:8px;border:none;">
+            <button id="addBtn" style="padding:8px 12px;border-radius:8px;border:none;background:#00f7ff;font-weight:700;">+</button>
+        </div>
+        <div id="contactsList"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="chat-box">
+        <div id="chatWith" class="chat-with"></div>
+        <div class="messages" id="messages"></div>
+        <div class="chat-input">
+            <input type="text" id="msgInput" placeholder="Type message...">
+            <select id="voiceEffect" style="padding:10px; border-radius:10px; border:none; background:#0f0f0f; color:#fff; font-weight:600;">
+                <option value="normal">Normal</option>
+                <option value="robot">🤖 Robot</option>
+                <option value="alien">👽 Alien</option>
+                <option value="chipmunk">🐿 Chipmunk</option>
+                <option value="deep">🦍 Deep</option>
+            </select>
+            <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            <canvas id="liveWave" width="200" height="40" style="display:none;"></canvas>
+            <button id="recordBtn" data-state="idle">
+            <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button id="clearChatBtn"><i class="fa-solid fa-trash"></i></button>
+        </div>
+    </div>
+
+</div>
+</section>
+
+<script>
+/* ================= AUTH ================= */
+const currentUser = JSON.parse(localStorage.getItem("chatwise_currentUser"));
+if (!currentUser) location.href = "index.html";
+
+const users = JSON.parse(localStorage.getItem("chatwise_users")) || [];
+let contacts = JSON.parse(localStorage.getItem("chatwise_contacts")) || {};
+let chats = JSON.parse(localStorage.getItem("chatwise_chats")) || {};
+let presence = JSON.parse(localStorage.getItem("chatwise_presence")) || {};
+
+let activeChatUser = null;
+let replyingTo = null;
+
+/* ================= ONLINE / LAST SEEN ================= */
+function setOnline(){
+    presence[currentUser.id] = { online:true, lastSeen:Date.now() };
+    localStorage.setItem("chatwise_presence",JSON.stringify(presence));
+}
+function setOffline(){
+    if(!presence[currentUser.id]) return;
+    presence[currentUser.id].online=false;
+    presence[currentUser.id].lastSeen=Date.now();
+    localStorage.setItem("chatwise_presence",JSON.stringify(presence));
+}
+setOnline();
+window.addEventListener("beforeunload",setOffline);
+
+/* ================= STATUS TEXT ================= */
+function getStatusText(uid){
+    const p = presence[uid];
+    if(!p) return "Offline";
+    if(p.online) return "🟢 Online";
+    const min = Math.floor((Date.now()-p.lastSeen)/60000);
+    return min<60 ? `Last seen ${min} min ago` : "Last seen "+new Date(p.lastSeen).toLocaleString();
+}
+
+/* ================= CONTACT PANEL ================= */
+const panel=document.getElementById("contactsPanel");
+panel.classList.remove("show");
+setTimeout(()=>panel.classList.add("show"),1500);
+
+/* ================= LOAD CONTACTS ================= */
+function loadContacts(){
+    const list=document.getElementById("contactsList");
+    list.innerHTML="";
+    (contacts[currentUser.id]||[]).forEach(cid=>{
+        const u=users.find(x=>x.id===cid);
+        if(!u) return;
+        const d=document.createElement("div");
+        d.className="user";
+        d.innerHTML=`<strong>${u.username}</strong><br><small>${getStatusText(u.id)}</small>`;
+        d.onclick=()=>openChat(u);
+        list.appendChild(d);
+    });
+}
+
+/* ================= ADD CONTACT ================= */
+addBtn.onclick=()=>{
+    const mobile=addMobile.value.trim();
+    if(!mobile) return;
+    const found=users.find(u=>u.mobile===mobile);
+    if(!found) return alert("User not registered ❌");
+    if(found.id===currentUser.id) return alert("Cannot add yourself ❌");
+    contacts[currentUser.id] ??= [];
+    if(contacts[currentUser.id].includes(found.id)) return alert("Already added");
+    contacts[currentUser.id].push(found.id);
+    localStorage.setItem("chatwise_contacts",JSON.stringify(contacts));
+    addMobile.value="";
+    loadContacts();
+};
+
+/* ================= CHAT CORE ================= */
+function chatKey(a,b){ return [a,b].sort().join("_"); }
+
+function openChat(user){
+    activeChatUser=user;
+    setActiveChatIndicator(user);
+    markSeen();
+    renderMessages();
+}
+
+/* ================= ACTIVE CHAT ================= */
+function setActiveChatIndicator(user){
+    chatWith.innerHTML=`Chat with <strong>${user.username}</strong><br><small>${getStatusText(user.id)}</small>`;
+    document.querySelectorAll(".user").forEach(u=>{
+        u.classList.toggle("active",u.innerText.includes(user.username));
+    });
+}
+
+/* ================= RENDER MESSAGES ================= */
+function renderMessages(){
+    const box=messages;
+    box.innerHTML="";
+    if(!activeChatUser) return;
+    const key=chatKey(currentUser.id,activeChatUser.id);
+
+    (chats[key]||[]).forEach((m,i)=>{
+        const d=document.createElement("div");
+        d.className="msg "+(m.senderId===currentUser.id?"me":"partner");
+
+        if(m.replyTo){
+            const r=document.createElement("div");
+            r.style.opacity=.6;
+            r.textContent="↩ "+m.replyTo;
+            d.appendChild(r);
+        }
+
+        if(m.voice){
+            const a=document.createElement("audio");
+            a.src=m.voice;
+            a.controls=true;
+            d.appendChild(a);
+        }else d.appendChild(document.createTextNode(m.text));
+
+        if(m.senderId===currentUser.id){
+            const s=document.createElement("small");
+            s.textContent=m.seen?" ✔✔":" ✔";
+            d.appendChild(s);
+        }
+
+        addReactions(d,m);
+
+        d.oncontextmenu=e=>{
+            e.preventDefault();
+            if(confirm("Delete this message?")){
+                chats[key].splice(i,1);
+                localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+                renderMessages();
+            }
+        };
+
+        d.onclick=()=>{
+            replyingTo=m.text||"Voice message";
+            msgInput.placeholder="Replying to: "+replyingTo;
+        };
+
+        box.appendChild(d);
+    });
+    box.scrollTop=box.scrollHeight;
+}
+
+/* ================= SEND TEXT ================= */
+sendBtn.onclick=()=>{
+    const text=msgInput.value.trim();
+    if(!text||!activeChatUser) return;
+    const key=chatKey(currentUser.id,activeChatUser.id);
+    chats[key] ??= [];
+    chats[key].push({
+        senderId:currentUser.id,
+        text,
+        replyTo:replyingTo,
+        seen:false,
+        time:Date.now()
+    });
+    replyingTo=null;
+    msgInput.value="";
+    msgInput.placeholder="Type message...";
+    localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+    renderMessages();
+};
+
+/* ================= VOICE RECORD + EFFECT ================= */
+let mediaRecorder,audioChunks=[],stream;
+recordBtn.onclick=async()=>{
+    if(!mediaRecorder){
+        stream=await navigator.mediaDevices.getUserMedia({audio:true});
+        mediaRecorder=new MediaRecorder(stream);
+        audioChunks=[];
+        mediaRecorder.start();
+        recordBtn.innerHTML="⏹";
+        startWave(stream);
+        mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
+    }else{
+        mediaRecorder.stop();
+        stopWave();
+        recordBtn.innerHTML="<i class='fa-solid fa-microphone'></i>";
+        mediaRecorder.onstop=async()=>{
+            const blob=new Blob(audioChunks,{type:"audio/webm"});
+            const effected=await applyVoiceEffect(blob,voiceEffect.value);
+            const r=new FileReader();
+            r.onload=()=>sendVoice(r.result);
+            r.readAsDataURL(effected);
+        };
+        mediaRecorder=null;
+    }
+};
+
+/* ================= VOICE EFFECT ENGINE ================= */
+async function applyVoiceEffect(blob,type){
+    const ctx=new AudioContext();
+    const buf=await ctx.decodeAudioData(await blob.arrayBuffer());
+    const src=ctx.createBufferSource();
+    src.buffer=buf;
+
+    let node=src;
+    if(type==="robot"){
+        const dist=ctx.createWaveShaper();
+        dist.curve=new Float32Array([0,-1,1]);
+        node.connect(dist); node=dist;
+    }
+    if(type==="alien") src.playbackRate.value=0.8;
+    if(type==="chipmunk") src.playbackRate.value=1.6;
+    if(type==="deep") src.playbackRate.value=0.7;
+
+    const dest=ctx.createMediaStreamDestination();
+    node.connect(dest); src.start();
+
+    return new Promise(r=>{
+        const rec=new MediaRecorder(dest.stream);
+        const c=[];
+        rec.ondataavailable=e=>c.push(e.data);
+        rec.onstop=()=>r(new Blob(c,{type:"audio/webm"}));
+        rec.start();
+        setTimeout(()=>rec.stop(),buf.duration*1000);
+    });
+}
+
+/* ================= SEND VOICE ================= */
+function sendVoice(base64){
+    if(!activeChatUser) return;
+    const key=chatKey(currentUser.id,activeChatUser.id);
+    chats[key] ??= [];
+    chats[key].push({
+        senderId:currentUser.id,
+        voice:base64,
+        replyTo:replyingTo,
+        seen:false,
+        time:Date.now()
+    });
+    replyingTo=null;
+    localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+    renderMessages();
+}
+
+/* ================= REACTIONS ================= */
+function addReactions(d,m){
+    if(m.reaction){
+        const s=document.createElement("div");
+        s.textContent=m.reaction;
+        d.appendChild(s);
+    }
+    const r=document.createElement("div");
+    r.className="reactions";
+    ["❤️","😂","🔥","👍"].forEach(e=>{
+        const s=document.createElement("span");
+        s.textContent=e;
+        s.onclick=()=>{
+            m.reaction=e;
+            localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+            renderMessages();
+        };
+        r.appendChild(s);
+    });
+    d.appendChild(r);
+}
+
+/* ================= READ RECEIPT ================= */
+function markSeen(){
+    if(!activeChatUser) return;
+    const key=chatKey(currentUser.id,activeChatUser.id);
+    (chats[key]||[]).forEach(m=>{
+        if(m.senderId!==currentUser.id) m.seen=true;
+    });
+    localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+}
+
+/* ================= CLEAR CHAT ================= */
+clearChatBtn.onclick=()=>{
+    if(!activeChatUser||!confirm("Clear entire chat?")) return;
+    chats[chatKey(currentUser.id,activeChatUser.id)]=[];
+    localStorage.setItem("chatwise_chats",JSON.stringify(chats));
+    renderMessages();
+};
+
+/* ================= REALTIME ================= */
+window.addEventListener("storage",()=>{
+    chats=JSON.parse(localStorage.getItem("chatwise_chats"))||{};
+    presence=JSON.parse(localStorage.getItem("chatwise_presence"))||{};
+    loadContacts();
+    if(activeChatUser) setActiveChatIndicator(activeChatUser);
+    renderMessages();
+});
+
+/* ================= LIVE WAVE ================= */
+let audioContext,analyser,sourceNode,waveRAF;
+const waveCanvas=liveWave;
+const waveCtx=waveCanvas.getContext("2d");
+
+function startWave(stream){
+    audioContext=new AudioContext();
+    analyser=audioContext.createAnalyser();
+    analyser.fftSize=2048;
+    sourceNode=audioContext.createMediaStreamSource(stream);
+    sourceNode.connect(analyser);
+    waveCanvas.style.display="block";
+    drawWave();
+}
+function stopWave(){
+    cancelAnimationFrame(waveRAF);
+    waveCanvas.style.display="none";
+    waveCtx.clearRect(0,0,waveCanvas.width,waveCanvas.height);
+    audioContext?.close();
+}
+function drawWave(){
+    waveRAF=requestAnimationFrame(drawWave);
+    const buffer=new Uint8Array(analyser.fftSize);
+    analyser.getByteTimeDomainData(buffer);
+    waveCtx.clearRect(0,0,waveCanvas.width,waveCanvas.height);
+    waveCtx.beginPath();
+    const slice=waveCanvas.width/buffer.length;
+    let x=0;
+    buffer.forEach((v,i)=>{
+        const y=(v/128)*waveCanvas.height/2;
+        i?waveCtx.lineTo(x,y):waveCtx.moveTo(x,y);
+        x+=slice;
+    });
+    waveCtx.stroke();
+}
+
+/* ================= INIT ================= */
+loadContacts();
+</script>
+</body>
+</html>
