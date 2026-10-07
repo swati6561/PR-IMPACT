@@ -774,6 +774,8 @@ function drawWave(){
     const buffer=new Uint8Array(analyser.fftSize);
     analyser.getByteTimeDomainData(buffer);
     waveCtx.clearRect(0,0,waveCanvas.width,waveCanvas.height);
+    waveCtx.strokeStyle="#ff0101";
+    waveCtx.lineWidth=2;
     waveCtx.beginPath();
     const slice=waveCanvas.width/buffer.length;
     let x=0;
